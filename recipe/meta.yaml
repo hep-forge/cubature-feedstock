@@ -1,0 +1,37 @@
+{% set versions = {
+    "1.0.4": "cd4899de0b047a9d220cfb751a8bdbb8fd0c97c1c894d07523b75168e6426f60"
+} %}
+
+{% set version = environ.get('COMMIT_VERSION', None) %}
+{% set version = version or versions.keys()|first %}
+{% set version = version|string %}
+
+package:
+  name: {{ environ.get('ANACONDA_PACKAGE', "cubature")|string|lower }}
+  version: {{ environ.get('ANACONDA_VERSION', version)|replace("-", ".") }}
+
+source:
+  url: "https://github.com/stevengj/cubature/archive/v{{ version }}.tar.gz"
+  {% if versions.get(version, None) %}
+  sha256: {{ versions.get(version) }}
+  {% endif %}
+
+requirements:
+  build:
+    - {{ compiler('gfortran') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+
+    - cmake
+    - make
+
+about:
+  home: "https://github.com/stevengj/cubature"
+  license: "GPL-3.0"
+  summary: "Multi-dimensional adaptive integration (cubature) in C"
+  description: |
+    This is a simple C package for adaptive multidimensional integration (cubature) of vector-valued integrands over hypercubes, written by Steven G. Johnson.
+
+extra:
+  recipe-maintainers:
+    - meiyasan
