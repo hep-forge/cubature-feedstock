@@ -235,7 +235,9 @@ jobs:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
         run: |
           [ -z "$ANACONDA_VERSION" ] && exit 1
-          [ "$ANACONDA_VERSION" = "0.0.0" ] && { echo "Skipping dev build (no version tag)"; exit 0; }
+          case "$ANACONDA_VERSION" in
+            0.0.0*) echo "Skipping dev build (no version tag)"; exit 0 ;;
+          esac
           for CONDA in $(find pkgs-all -name "*.conda" | sort); do
             /usr/share/miniconda/bin/anaconda -t $ANACONDA_API_TOKEN upload --force "$CONDA" --label "$ANACONDA_LABEL"
           done
