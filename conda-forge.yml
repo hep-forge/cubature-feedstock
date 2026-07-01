@@ -1,5 +1,6 @@
 build_platform:
   linux_aarch64: linux_aarch64
+  osx_arm64: osx_arm64
 channels:
   sources:
     - hep-forge
@@ -16,4 +17,5 @@ github:
 provider:
   linux_64: github_actions
   linux_aarch64: github_actions
+  osx_arm64: github_actions
 
