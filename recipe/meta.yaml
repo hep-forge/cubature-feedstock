@@ -16,6 +16,12 @@ source:
   sha256: {{ versions.get(version) }}
   {% endif %}
 
+build:
+  # _0 shipped a stray ELF literally named "bin" at the package root
+  # (cp htest $PREFIX/bin with no bin/ dir); it collides with the env's
+  # bin/ directory and corrupts conda's transaction for sibling packages.
+  number: 1
+
 requirements:
   build:
     - {{ compiler('gfortran') }}
